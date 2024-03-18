@@ -8,13 +8,16 @@ ENV GOOS=linux
 
 RUN apk --no-cache add git=~2
 
-COPY *.go go.mod go.sum /build/
+COPY main.go go.mod go.sum /build/
 
 RUN go version
 RUN go build
 
-FROM scratch
+FROM alpine:3.19.1
 
 COPY --from=build-env /build/dockerutil /dockerutil
+
+HEALTHCHECK --interval=5s --timeout=3s \
+    CMD ps aux | grep 'dockerutil' || exit 1
 
 ENTRYPOINT ["/dockerutil"]
