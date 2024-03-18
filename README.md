@@ -29,5 +29,11 @@ tomcat:
       timeout: 5s
       retries: 3
     labels:
-      - "dockerutil.autoheal=true"
+      - dockerutil.autoheal=true //restarts the container if health status is unhealthy
+      - dockerutil.cron.getcontent=true //enables one time execution of getcontent when container starts - false use only schdule given in the spec label
+      - dockerutil.cron.getcontent.spec="12 * * * *" //starts the cron cmd evey hour 12th minute
+      - dockerutil.cron.getcontent.cmd="/usr/bin/wget" //command that container should execute
+      - dockerutil.cron.updatecontent=true //second cron named updatecontent
+      - dockerutil.cron.updatecontent.spec="* * * * *"
+      - dockerutil.cron.updatecontent.cmd="/usr/bin/curl"
 ```
