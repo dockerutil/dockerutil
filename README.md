@@ -12,7 +12,7 @@ A simple go app over `docker` to do all tasks, which should be included with doc
 
 ### docker
 ```
-docker run -l dockerutil.autoheal=true -l dockerutil.cron=true --health-cmd "uname -a" --health-interval 10s --health-retries 3 --health-start-period 5s --health-timeout 1s -l dockerutil.cron.test2=false -l dockerutil.cron.test2.spec="2 * * * *" -l dockerutil.cron.test2.cmd="pwd" ubuntu sleep infinity
+docker run -l dockerutil.autoheal=true --health-cmd "uname -a" --health-interval 10s --health-retries 3 --health-start-period 5s --health-timeout 1s -l dockerutil.cron.test1=true -l dockerutil.cron.test1.spec="* * * * *" -l dockerutil.cron.test1.cmd="ls -al" -l dockerutil.cron.test2=false -l dockerutil.cron.test2.spec="2 * * * *" -l dockerutil.cron.test2.cmd="pwd" ubuntu sleep infinity
 ```
 
 ### compose
@@ -33,7 +33,7 @@ tomcat:
       - dockerutil.cron.getcontent=true //enables one time execution of getcontent when container starts - false use only schdule given in the spec label
       - dockerutil.cron.getcontent.spec="12 * * * *" //starts the cron cmd evey hour 12th minute
       - dockerutil.cron.getcontent.cmd="/usr/bin/wget" //command that container should execute
-      - dockerutil.cron.updatecontent=true //second cron named updatecontent
+      - dockerutil.cron.updatecontent=false //second cron named updatecontent do not start the cronjob on container start, only run at specified schedule
       - dockerutil.cron.updatecontent.spec="* * * * *"
       - dockerutil.cron.updatecontent.cmd="/usr/bin/curl"
 ```
